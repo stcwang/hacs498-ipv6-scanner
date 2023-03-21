@@ -55,44 +55,38 @@ for i in seed_list:
 
 # Part 2: generate hit list
 
-count = 0 
 hitlist = set()
-change = 0
 
-# since we're rounding up, we should only need to loop more than once
-# if we have seeds that are close and end up having overlapping ranges
-while count < budget: 
-    # number of IPs around each seed, rounded up
-    perseed = int((budget - count) / len(seed_list) + 1)
+# number of IPs around each seed, rounded up
+perseed = int(budget / len(seed_list) + 1)
+
+for s in seedset: 
+    seednum = v6.strToV6(s)
+    above = seednum
+    below = seednum
     
-    for s in seedset: 
-        seednum = v6.strToV6(s)
-        above = seednum
-        below = seednum
-        
-        # so we'll look at new ips on a second loop 
-        for _ in range(change):
+    currct = 0
+    split = True
+
+    # finds the <perseed> closest addresses that have not been added to the hitlist
+    while currct < perseed: 
+        # we'll look at both above and below addresses 
+        if (split): 
             above = ip_plus(above)
-            below = ip_minus(below) 
-        
-        for i in range(perseed): 
-            # we'll look at both above and below addresses 
-            if (i > perseed // 2): 
-                above = ip_plus(above)
-                currstr = v6.v6ToStr(above)
-            else: 
-                below = ip_minus(below)
-                currstr = v6.v6ToStr(below) 
+            currstr = v6.v6ToStr(above)
+        else: 
+            below = ip_minus(below)
+            currstr = v6.v6ToStr(below) 
 
-            if currstr not in hitlist and currstr not in seedset:
-                hitlist.add(currstr) 
-                count += 1
-                
-    change = perseed // 2 + 1
+        split = not split 
 
+        if currstr not in hitlist and currstr not in seedset:
+            hitlist.add(currstr) 
+            currct += 1
+                        
 # hitlist may be longer than budget, so we'll truncate it 
 hitlist = list(hitlist)[:budget]
-    
+
 # Part 3: scan hit list
 
 # Part 4: detect aliased networks
