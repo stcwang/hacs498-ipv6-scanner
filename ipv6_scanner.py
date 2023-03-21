@@ -5,7 +5,7 @@ import simPing as ping
 import ipv6helper as v6
 
 # program takes in the probe budget
-if len(sys.argv) < 1: 
+if len(sys.argv) < 2: 
     print("usage: " + sys.argv[0] + " <probe budget>")
     exit(1)
     
