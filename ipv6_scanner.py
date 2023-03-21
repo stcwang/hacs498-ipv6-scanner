@@ -46,12 +46,12 @@ sp = ping.initialize()
 # ping each seed
 for i in seed_list:
     ip = i.rstrip('\n')
-    seedset.add(ip)
     active = ping.ping(sp, ip)
 
     if not active:
         print('Error: Seed ' + ip + ' is not active')
-        exit(1)
+    else:
+        seedset.add(ip)
 
 # Part 2: generate hit list
 
