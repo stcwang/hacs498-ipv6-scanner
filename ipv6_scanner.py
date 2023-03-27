@@ -10,6 +10,10 @@ if len(sys.argv) < 2:
     exit(1)
     
 budget = int(sys.argv[1])
+if len(sys.argv) == 3 and sys.argv[2] == '-t':
+    test = True
+else:
+    test = False
 
 # two helpers for adding and subtracting from IPs
 def ip_plus(ip): 
@@ -42,7 +46,7 @@ def network(ip):
 # Part 1: verify seeds
 
 # Actual file '/datadrive/homework/scanner-seeds.txt'
-seed_file_name = '/datadrive/homework/scanner-seeds-small.txt' 
+seed_file_name = '/datadrive/homework/scanner-seeds-small.txt' if test else '/datadrive/homework/scanner-seeds.txt'
 seed_list = open(seed_file_name, 'r').readlines()
 seedset = set()
 
