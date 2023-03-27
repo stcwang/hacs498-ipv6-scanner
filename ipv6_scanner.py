@@ -94,10 +94,20 @@ hitlist = list(hitlist)[:budget]
 
 # Part 3: scan hit list
 activeHitlist = set()
+networks = {}
 
 for i in hitlist:
+    i_network = network(i)
     if ping.ping(sp, i):
         activeHitlist.add(i)
+        if i_network not in networks:
+            networks[i_network] = 1
+        elif networks[i_network] != 0:
+            networks[i_network] = networks[i_network] + 1
+
+    else:
+        # no response, network not aliased
+        networks[i_network] = 0
 
 
 # Part 4: detect aliased networks
