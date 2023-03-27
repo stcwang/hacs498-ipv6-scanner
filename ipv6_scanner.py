@@ -34,6 +34,11 @@ def ip_minus(ip):
     
     return ip[:ind] + (ip[ind] - 1,) + (2**16-1,) * (7-ind)
 
+# helper for getting network
+def network(ip):
+    ipnum = v6.strToV6(ip)
+    return v6.v6ToStr(ipnum[:4] + (0,) * 4)
+
 # Part 1: verify seeds
 
 # Actual file '/datadrive/homework/scanner-seeds.txt'
