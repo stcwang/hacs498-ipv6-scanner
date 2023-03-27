@@ -109,5 +109,18 @@ for i in hitlist:
         # no response, network not aliased
         networks[i_network] = 0
 
-
 # Part 4: detect aliased networks
+
+numaliased = 0
+aliasedips = 0
+
+# if we only have a few data points, don't assume network is aliased
+for n in networks: 
+    if networks[n] >= 5: # we will use a cutoff of 5
+        numaliased += 1
+        aliasedips += networks[n]
+
+# report results 
+print("Number of probes:", budget)
+print("Number of aliased networks:", numaliased)
+print("Number of new non-aliased addresses found:", len(activeHitlist) - aliasedips)
