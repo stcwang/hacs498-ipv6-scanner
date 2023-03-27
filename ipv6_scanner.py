@@ -88,5 +88,11 @@ for s in seedset:
 hitlist = list(hitlist)[:budget]
 
 # Part 3: scan hit list
+activeHitlist = set()
+
+for i in hitlist:
+    if ping.ping(sp, i):
+        activeHitlist.add(i)
+
 
 # Part 4: detect aliased networks
