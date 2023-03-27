@@ -52,6 +52,8 @@ seedset = set()
 
 sp = ping.initialize()
 
+print("Verifying seeds...")
+
 # ping each seed
 for i in seed_list:
     ip = i.rstrip('\n')
@@ -63,6 +65,8 @@ for i in seed_list:
         seedset.add(ip)
 
 # Part 2: generate hit list
+
+print("Generating hit list...")
 
 hitlist = set()
 
@@ -97,6 +101,8 @@ for s in seedset:
 hitlist = list(hitlist)[:budget]
 
 # Part 3: scan hit list
+print("Scanning hit list...")
+
 activeHitlist = set()
 networks = {}
 
@@ -114,6 +120,7 @@ for i in hitlist:
         networks[i_network] = 0
 
 # Part 4: detect aliased networks
+print("Calculating results...")
 
 numaliased = 0
 aliasedips = 0
