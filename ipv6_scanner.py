@@ -10,7 +10,7 @@ if len(sys.argv) < 2:
     exit(1)
     
 budget = int(sys.argv[1])
-if len(sys.argv) == 3 and sys.argv[2] == '-t':
+if len(sys.argv) == 3 and sys.argv[2] == '-t': # optional flag to use small set
     test = True
 else:
     test = False
@@ -47,22 +47,22 @@ def network(ip):
 
 # Actual file '/datadrive/homework/scanner-seeds.txt'
 seed_file_name = '/datadrive/homework/scanner-seeds-small.txt' if test else '/datadrive/homework/scanner-seeds.txt'
-seed_list = open(seed_file_name, 'r').readlines()
 seedset = set()
 
 sp = ping.initialize()
 
 print("Verifying seeds...")
 
-# ping each seed
-for i in seed_list:
-    ip = i.rstrip('\n')
-    active = ping.ping(sp, ip)
+with open(seed_file_name, 'r') as f:
+    # ping each seed
+    for i in f.readlines():
+        ip = i.rstrip('\n')
+        active = ping.ping(sp, ip)
 
-    if not active:
-        print('Error: Seed ' + ip + ' is not active')
-    else:
-        seedset.add(ip)
+        if not active:
+            print('Error: Seed ' + ip + ' is not active')
+        else:
+            seedset.add(ip)
 
 # Part 2: generate hit list
 
@@ -71,7 +71,7 @@ print("Generating hit list...")
 hitlist = set()
 
 # number of IPs around each seed, rounded up
-perseed = int(budget / len(seed_list) + 1)
+perseed = int(budget / len(seedset) + 1)
 
 for s in seedset: 
     seednum = v6.strToV6(s)
