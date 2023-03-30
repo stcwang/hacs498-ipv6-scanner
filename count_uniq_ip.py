@@ -15,12 +15,13 @@ with open(file, "r") as f:
     line = f.readline()
     while line:
         obj = json.loads(line)
+        
+        ipset.add(obj["from"])
+        # there are some error traceroutes where there's no dst/src address
         if "dst_addr" in obj:
             ipset.add(obj["dst_addr"])
         if "src_addr" in obj:
             ipset.add(obj["src_addr"])
-        if "from" in obj:
-            ipset.add(obj["from"])
         
         # dive into nested structure for traceroute ip
         result = obj['result']
@@ -32,6 +33,7 @@ with open(file, "r") as f:
                     for trace_info in result2:
                         if 'from' in trace_info:
                             ipset.add(trace_info['from'])
+        
         line = f.readline()
 
 print("Number of unique IPs found:", len(ipset))
