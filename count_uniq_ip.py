@@ -2,6 +2,7 @@
 
 import json
 import sys
+import ipv6helper as v6
 
 if len(sys.argv) < 2:
     print("Usage: " + sys.argv[0] + "<traceroute file>")
@@ -36,4 +37,13 @@ with open(file, "r") as f:
         
         line = f.readline()
 
-print("Number of unique IPs found:", len(ipset))
+invalid = set()
+
+with open('unique_ips.txt', 'w') as file:
+    for ip in ipset:
+        if v6.isAddrStr(ip):
+            file.write(ip + '\n')
+        else:
+            invalid.add(ip)
+            
+print("Number of unique IPs found:", len(ipset - invalid))
